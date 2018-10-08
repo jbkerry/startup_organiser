@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from organizer.models import Startup, Tag
@@ -17,6 +18,13 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title} on {self.pub_date.strftime("%Y-%m-%d")}'
+
+    def get_absolute_url(self):
+        return reverse('blog_post_detail', kwargs={
+            'year': self.pub_date.year,
+            'month': self.pub_date.month,
+            'slug': self.slug
+        })
 
     class Meta:
         verbose_name = 'blog post'
